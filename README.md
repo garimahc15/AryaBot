@@ -1,3 +1,3 @@
 # AryaBot
 
-You will find the the bot at [a link](https://t.me/AryaacBot)
+Click [here](https://t.me/AryaacBot) to talk to Arya.
