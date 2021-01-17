@@ -45,9 +45,9 @@ def send_message(text, chat_id):
     url = URL + "sendMessage?text={}&chat_id={}".format(text, chat_id)
     get_url(url)
 
-def make_bot_resp(user_resp):
+def make_bot_resp(user_resp, first_name):
     if user_resp is not None:
-        bot_resp = chat_decision.bot_response(user_resp)
+        bot_resp = chat_decision.bot_response(user_resp, first_name)
     return bot_resp
 
 
@@ -56,7 +56,8 @@ def call_arya(updates):
         try:
             user_resp = update["message"]["text"]
             chat_id = update["message"]["chat"]["id"]
-            bot_resp = make_bot_resp(user_resp)
+            first_name = update["message"]["chat"]["first_name"]
+            bot_resp = make_bot_resp(user_resp, first_name)
             send_message(bot_resp, chat_id)
         except Exception as e:
             print(e)

@@ -26,7 +26,8 @@ greetings = ['Hey', 'Hello', 'Hi', "It's great to see you", 'Nice to see you', '
 bye = ['Bye', 'Bye-Bye', 'Goodbye', 'Have a good day']
 thank_you = ['Thanks', 'Thank you', 'Thanks a bunch', 'Thanks a lot.', 'Thank you very much', 'Thanks so much', 'Thank you so much']
 thank_response = ["You're welcome." , 'No problem.', 'No worries.', ' My pleasure.' , 'It was the least I could do.', 'Glad to help.']
-
+id_ques = ["What is your name", 'Who are  you', 'Identify yourself', 'What are you called']
+others = ["How are you", 'How are you doing', 'Whats up', 'Whats up arya']
 
 #pre-processing the raw text
 # Lemmitization
@@ -56,7 +57,8 @@ def response(user_response):
     print("yess = ", req_tfidf)
 
     if(req_tfidf == 0):    # 0 means there is no similarity between the question and answer
-        bot_response = bot_response + """ I am sorry! I don't understand you. Please rephrase your query.\nIf you require any urgent assistance, please contact Lady Garima at 9588727202"""
+        bot_response = bot_response + """ I am sorry! I don't understand you. Please rephrase your query.\n\nYou can also contact GCS IIT Mandi for assistance : https://www.facebook.com/GCS-IIT-Mandi-101189408201982 \n\n - - - - - - - - - - - - 
+        Post your question again using /ask if that was something important 🙂"""
         return bot_response
     
     else:
@@ -68,14 +70,20 @@ def response(user_response):
 
 #deciding responses from bot to user : FINAL
 import random
-def bot_response(user_msg):
+def bot_response(user_msg, first_name=''):
     flag=True
     while(flag==True):
         user_response = user_msg
         user_response = user_response.capitalize().translate(remove_punct_dict)
         if(user_response not in bye):
             if(user_msg == '/start'):
-                bot_response = "Hi! I am Arya and I am NOT going home until I answer all your queries regarding IIT Mandi."
+                bot_response = "Hi "+ first_name + "! I am Arya and I am NOT going home until I answer all your queries regarding IIT Mandi. \n\nYou can help me improve by giving your valuable feedback using /fb."
+                return bot_response
+            elif(user_response in id_ques):
+                bot_response = "My name is Arya."
+                return bot_response
+            elif(user_response in others):
+                bot_response = "I am happy you asked. I am good. 😊"
                 return bot_response
             elif(user_response in thank_you):
                 bot_response = random.choice(thank_response)
