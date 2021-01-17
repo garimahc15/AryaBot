@@ -1,6 +1,6 @@
 from configparser import ConfigParser
 
-
+#The following config() function read the database.ini file and returns connection parameters. 
 def config(filename='database.ini', section='postgresql'):
     # create a parser
     parser = ConfigParser()
@@ -21,6 +21,7 @@ def config(filename='database.ini', section='postgresql'):
 
 import psycopg2
 
+#The following connect() function connects to the aryaacbot database and prints out the PostgreSQL database version.
 def connect():
     """ Connect to the PostgreSQL database server """
     conn = None

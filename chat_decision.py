@@ -23,7 +23,7 @@ sent_tokens = paragraph.split("!!\n\n")
 
 #keyword matching for basic greetings for our very own sophisticated bot :)
 greetings = ['Hey', 'Hello', 'Hi', "It's great to see you", 'Nice to see you', 'Good to see you']
-bye = ['Bye', 'Bye-Bye', 'Goodbye', 'Have a good day']
+bye = ['Bye', 'Bye bye', 'Goodbye', 'Have a good day']
 thank_you = ['Thanks', 'Thank you', 'Thanks a bunch', 'Thanks a lot.', 'Thank you very much', 'Thanks so much', 'Thank you so much']
 thank_response = ["You're welcome." , 'No problem.', 'No worries.', ' My pleasure.' , 'It was the least I could do.', 'Glad to help.']
 id_ques = ["What is your name", 'Who are  you', 'Identify yourself', 'What are you called']
@@ -77,7 +77,7 @@ def bot_response(user_msg, first_name=''):
         user_response = user_response.capitalize().translate(remove_punct_dict)
         if(user_response not in bye):
             if(user_msg == '/start'):
-                bot_response = "Hi "+ first_name + "! I am Arya and I am NOT going home until I answer all your queries regarding IIT Mandi. \n\nYou can help me improve by giving your valuable feedback using /fb."
+                bot_response = "Hi "+ first_name + "! I am Arya and I am NOT going home until I answer all your queries regarding IIT Mandi. \n\nYou can help me improve by giving your valuable feedback using /fbk."
                 return bot_response
             elif(user_response in id_ques):
                 bot_response = "My name is Arya."

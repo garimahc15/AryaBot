@@ -3,6 +3,7 @@ import json
 import requests
 import time
 import urllib
+import insert_data
 
 TOKEN = "1456898905:AAFxIy8Lf7GX5T_MMGIhmj7mKG4CwsXVRe4"
 URL = "https://api.telegram.org/bot{}/".format(TOKEN)
@@ -33,13 +34,6 @@ def get_last_update_id(updates):
         update_ids.append(int(update["update_id"]))
         return max(update_ids)
 
-def get_last_chat_id_and_text(updates):
-    num_updates = len(updates["result"])
-    last_update = num_updates - 1
-    text = updates["result"][last_update]["message"]["text"]
-    chat_id = updates["result"][last_update]["message"]["chat"]["id"]
-    return (text, chat_id)
-
 def send_message(text, chat_id):
     text = urllib.parse.quote_plus(text)  #encode any special characters in our message
     url = URL + "sendMessage?text={}&chat_id={}".format(text, chat_id)
@@ -50,14 +44,21 @@ def make_bot_resp(user_resp, first_name):
         bot_resp = chat_decision.bot_response(user_resp, first_name)
     return bot_resp
 
-
 def call_arya(updates):
     for update in updates["result"]:
         try:
             user_resp = update["message"]["text"]
             chat_id = update["message"]["chat"]["id"]
             first_name = update["message"]["chat"]["first_name"]
-            bot_resp = make_bot_resp(user_resp, first_name)
+            last_name = update["message"]["chat"]["last_name"]
+            if (user_resp is not None and user_resp[:4]== '/ask'):
+                insert_data.insert_question(chat_id, first_name, last_name, user_resp[4:])
+                bot_resp = "Your query has been registered."
+            elif (user_resp is not None and user_resp[:4]== '/fbk'):
+                insert_data.insert_feedback(chat_id, first_name, last_name, user_resp[4:])
+                bot_resp = "Thanks " + first_name + ". Your feedback has been registered."
+            else:
+                bot_resp = make_bot_resp(user_resp, first_name)
             send_message(bot_resp, chat_id)
         except Exception as e:
             print(e)
@@ -70,7 +71,7 @@ def main():
             last_update_id = get_last_update_id(updates) + 1
             call_arya(updates)
         #to get the most recent messages from Telegram every half second.
-        time.sleep(0.5)
+        #time.sleep(0.5)
 
 if __name__ == '__main__':
     main()
